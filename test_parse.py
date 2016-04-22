@@ -1,4 +1,5 @@
 import time, math, json
+import os.path
 
 def parseData(data, lines):
     data_arr = []
@@ -23,26 +24,44 @@ def parseData(data, lines):
 
 
 if __name__ == "__main__":
-    #user_dat = parseUser("yelp_user_test.json", 2)
     # number of lines of each set - change to run on subsets of the data
     user_lines = 552339
     tip_lines = 591864
     rev_lines = 2225213
     checkin_lines = 55569
     business_lines = 77445
+    #filenames and paths
+    user_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "yelp_academic_dataset_user.json"))
+    tip_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "yelp_academic_dataset_tip.json"))
+    rev_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "yelp_academic_dataset_review.json"))
+    check_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "yelp_academic_dataset_checkin.json"))
+    bus_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "yelp_academic_dataset_business.json"))
+    
+    #Reading in/ parsing data
     #user data
-    user_data = parseData("yelp_academic_dataset_user.json", 552339)
-    print "READ USER DATA"
+    start = time.clock()
+    user_data = parseData(user_path, user_lines)
+    end = time.clock()
+    # user_data = parseData(os.path.dirname(__file__) + "/../yelp_academic_dataset_user.json", 552339)
+    print "READ USER DATA in " + str(end - start) + " seconds"
     #tip data
-    tip_data = parseData("yelp_academic_dataset_user.json", tip_lines)
-    print "READ TIP DATA"
+    start = time.clock()
+    tip_data = parseData(tip_path, tip_lines)
+    end = time.clock()
+    print "READ TIP DATA in " + str(end - start) + " seconds"
     #review data
-    review_data  = parseData("yelp_academic_dataset_review.json", rev_lines)
-    print "READ REVIEW DATA"
+    start = time.clock()
+    review_data  = parseData(rev_path, rev_lines)
+    end = time.clock()
+    print "READ REVIEW DATA in " + str(end - start) + " seconds"
     #checkin data
-    checkin_data = parseData("yelp_academic_dataset_checkin.json", checkin_lines)
-    print "READ CHECKIN DATA"
+    start = time.clock()
+    checkin_data = parseData(check_path, checkin_lines)
+    end = time.clock()
+    print "READ CHECKIN DATA in " + str(end - start) + " seconds"
     #business data
-    business_data = parseData("yelp_academic_dataset_business.json", business_lines)
-    print "READ BUSINESS DATA"
+    start = time.clock()
+    business_data = parseData(bus_path, business_lines)
+    end = time.clock()
+    print "READ BUSINESS DATA in " + str(end - start) + " seconds"
     print "SUCCESSFUL PARSED ALL DATA FROM JSONs"
