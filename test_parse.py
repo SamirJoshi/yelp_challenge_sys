@@ -22,8 +22,7 @@ def parseData(data, lines):
 
     return data_arr
 
-
-if __name__ == "__main__":
+def filePaths(file_name):
     # number of lines of each set - change to run on subsets of the data
     user_lines = 552339
     tip_lines = 591864
@@ -36,32 +35,39 @@ if __name__ == "__main__":
     rev_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "yelp_academic_dataset_review.json"))
     check_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "yelp_academic_dataset_checkin.json"))
     bus_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "yelp_academic_dataset_business.json"))
+
+    numlines = {'user' : user_lines, 'tips' : tip_lines, 'reviews' : rev_lines, 'checkin' : checkin_lines, 'business' :  business_lines}
+    path = {'user' : user_path, 'tips' : tip_path, 'reviews' : rev_path, 'checkin' : check_path, 'business' : bus_path}
+
+    return (path[file_name], numlines[file_name])
+
+def getFiles(path, lines):
+
+    start = time.clock()
+    data = parseData(path, lines)
+    end = time.clock()
+    print "PARSED " + str(lines) + " of " + path + " in " + str(end - start) + "seconds" 
+   
+    return data
+
+def parseAll():
+    (user_p, user_l) = filePaths('user')
+    user_data = getFiles(user_p, user_l)
     
-    #Reading in/ parsing data
-    #user data
-    start = time.clock()
-    user_data = parseData(user_path, user_lines)
-    end = time.clock()
-    # user_data = parseData(os.path.dirname(__file__) + "/../yelp_academic_dataset_user.json", 552339)
-    print "READ USER DATA in " + str(end - start) + " seconds"
-    #tip data
-    start = time.clock()
-    tip_data = parseData(tip_path, tip_lines)
-    end = time.clock()
-    print "READ TIP DATA in " + str(end - start) + " seconds"
-    #review data
-    start = time.clock()
-    review_data  = parseData(rev_path, rev_lines)
-    end = time.clock()
-    print "READ REVIEW DATA in " + str(end - start) + " seconds"
-    #checkin data
-    start = time.clock()
-    checkin_data = parseData(check_path, checkin_lines)
-    end = time.clock()
-    print "READ CHECKIN DATA in " + str(end - start) + " seconds"
-    #business data
-    start = time.clock()
-    business_data = parseData(bus_path, business_lines)
-    end = time.clock()
-    print "READ BUSINESS DATA in " + str(end - start) + " seconds"
-    print "SUCCESSFUL PARSED ALL DATA FROM JSONs"
+    (tip_p, tip_l) = filePaths('tips')
+    tip_data = getFiles(tip_p, tip_l)
+    
+    (rev_p, rev_l) = filePaths('reviews')
+    rev_data = getFiles(rev_p, rev_l)
+    
+    (checkin_p, checkin_l) = filePaths('checkin')
+    checkin_data = getFiles(checkin_p, checkin_l)
+    
+    (bus_p, bus_l) = filePaths('business')
+    bus_data = getFiles(bus_p, bus_l)
+
+    return 0
+if __name__ == "__main__":
+    f =parseAll()
+    
+
